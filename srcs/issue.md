@@ -16,8 +16,4 @@ Okay first we have to build a lexer, the lexer is used to build the AST, it will
             - Drawbacks: should be good but if we want to add token later it could be cumbersome
 
 ## Minor
-- [] Lexer: We have to initiate a tab_array of 6 containing all token ["(", ")", "&&", "||", "|"] and we have to allocate all of them, i prefer to avoid mallocating this but no other choice right now with this implementation
-    - Solution:
-        - Implement a different way to recognize token like with a forest of if but i'm not sure if this is better than allocating
-        - Maybe there is a way to initalize this array on the stack, because each of these string are of fixed size, [1, 1, 2, 2, 1]
 - [] Changez le split

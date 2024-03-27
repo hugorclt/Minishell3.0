@@ -5,6 +5,7 @@
 
 #include "minishell.h"
 #include "string.h"
+#include "array.h"
 
 typedef enum e_token_type {
 	L_PARENTH,
@@ -23,7 +24,7 @@ typedef struct s_lexer {
 t_lexer	*init_lexer();
 void	clean_lexer(t_lexer *lexer);
 void	fill_lexer(t_lexer **lexer, char *input_prompt);
-token_type peek_token(t_lexer *lexer);
+int	peek_token(t_lexer *lexer);
 void	scan_token(t_lexer **lexer);
 int	skip_quote(t_lexer *lexer, int *index);
 

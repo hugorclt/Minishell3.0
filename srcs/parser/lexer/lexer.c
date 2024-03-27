@@ -30,13 +30,8 @@ static char	*get_token(t_lexer *lexer)
 		{
 			if (i == 0)
 				i += len_token;
-			while (lexer->input_prompt[i] && (lexer->input_prompt[i] == ' '  ||\
-				lexer->input_prompt[i] == '\v' || lexer->input_prompt[i] == '\n' ||\
-				lexer->input_prompt[i] == '\t' || lexer->input_prompt[i] == '\r' ||\
-				lexer->input_prompt[i] == '\f'))
-			{
+			while (lexer->input_prompt[i] && ft_iswhitespace(lexer->input_prompt[i]))
 					i++;
-			}
 			return (ft_substring(lexer->input_prompt, 0, i));
 		}
 		i++;
@@ -49,21 +44,22 @@ void	fill_lexer(t_lexer **lexer, char *input_prompt)
 	(*lexer)->input_prompt = input_prompt;
 }
 
-// might break if we reach end of line
-token_type	peek_token(t_lexer *lexer)
+int	peek_token(t_lexer *lexer)
 {
 	const char *token;
 	int	i;
 
 	i = 0;
 	token = get_token(lexer);
+	if (!token)
+		return (-1);
 	while (lexer->token_array[i])
 	{
 		if (ft_strncmp(token, lexer->token_array[i], ft_strlen(lexer->token_array[i])) == 0)
 			return (i);
 		i++;
 	}
-	return (i);
+	return (ft_tablen(lexer->token_array));
 }
 
 // might break if we reach end of line
