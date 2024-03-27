@@ -3,13 +3,25 @@
 int	repl()
 {
 	char	*str;
+	t_lexer	*lexer;
 
+	lexer = init_lexer();
 	while (42)
 	{
 		str = readline("$> ");
 		if (!str)
 			return (FAILURE);
-		init_lexer(str);
+		fill_lexer(&lexer, str);
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		scan_token(&lexer);	
+		free(str);
 	}
 	return (1);
 }

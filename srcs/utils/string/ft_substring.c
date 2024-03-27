@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_substring.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrecolet <hrecolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 10:47:11 by hrecolet          #+#    #+#             */
-/*   Updated: 2024/03/27 10:47:17 by hrecolet         ###   ########.fr       */
+/*   Created: 2024/03/27 10:45:56 by hrecolet          #+#    #+#             */
+/*   Updated: 2024/03/27 10:48:09 by hrecolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strlen(const char *str)
-{
-	int i;
+#include "string.h"
 
+char	*ft_substring(char const *s, unsigned int start, size_t end)
+{
+	char	*ret;
+	size_t	i;
+	size_t	j;
+
+	j = start;
 	i = 0;
-	while (str[i])
+	ret = malloc(sizeof(char) * (end - start + 1));
+	if (!s || !ret)
+		return (NULL);
+	while (j < end && s[start + i])
+	{
+		ret[i] = s[start + i];
+		j++;
 		i++;
-	return (i);
+	}
+	ret[i] = '\0';
+	return (ret);
 }

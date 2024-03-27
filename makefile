@@ -1,8 +1,15 @@
 NAME 		= 	minishell
 
 FILES 		=	srcs/main.c \
-			srcs/parser/lexer.c \
-			srcs/utils/string/ft_strlen.c
+			srcs/parser/lexer/lexer.c \
+			srcs/parser/lexer/lexer_utils.c \
+			srcs/utils/string/ft_strlen.c \
+			srcs/utils/string/ft_strdup.c \
+			srcs/utils/string/ft_strjoin.c \
+			srcs/utils/string/ft_split.c \
+			srcs/utils/string/ft_strncmp.c \
+			srcs/utils/string/ft_substr.c \
+			srcs/utils/string/ft_substring.c
 
 INCL_DIR  = $(addprefix -I,$(shell find $(SRC_DIR) -type d))
 CC 			= 	cc
@@ -31,6 +38,9 @@ $(OBJS_DIR)/%.o	: 	srcs/utils/string/%.c
 	@printf "\033[0;33mGenerating minsihell object... %-38.38s \r" $@
 	@$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INCL_DIR)
 
+$(OBJS_DIR)/%.o	: 	srcs/parser/lexer/%.c
+	@printf "\033[0;33mGenerating minsihell object... %-38.38s \r" $@
+	@$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INCL_DIR)
 
 
 
