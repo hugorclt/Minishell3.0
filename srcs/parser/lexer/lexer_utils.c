@@ -39,7 +39,7 @@ t_lexer	*init_lexer()
 	if (!lexer)
 		return (NULL);
 	lexer->input_prompt = NULL;
-	lexer->token_array = ft_split("( ) && || |", ' ');
+	lexer->token_array = ft_split("( ) && || | << >> < >", ' ');
 	return (lexer);
 }
 

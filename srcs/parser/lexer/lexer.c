@@ -14,6 +14,19 @@ int	is_token(t_lexer *lexer, int index)
 	return (FALSE);
 }
 
+void	skip_to_next_word(char *input_prompt, int *i)
+{
+	if (input_prompt[0] == '<' || input_prompt[0] == '>')
+	{
+		while (input_prompt[(*i)] && ft_iswhitespace(input_prompt[(*i)]))
+			(*i)++;
+		while (input_prompt[(*i)] && !ft_iswhitespace(input_prompt[(*i)]))
+			(*i)++;
+	}
+	while (input_prompt[(*i)] && ft_iswhitespace(input_prompt[(*i)]))
+		(*i)++;
+}
+
 static char	*get_token(t_lexer *lexer)
 {
 	int i;
@@ -30,8 +43,9 @@ static char	*get_token(t_lexer *lexer)
 		{
 			if (i == 0)
 				i += len_token;
-			while (lexer->input_prompt[i] && ft_iswhitespace(lexer->input_prompt[i]))
-					i++;
+//			while (lexer->input_prompt[i] && ft_iswhitespace(lexer->input_prompt[i]))
+//					i++;
+			skip_to_next_word(lexer->input_prompt, &i);
 			return (ft_substring(lexer->input_prompt, 0, i));
 		}
 		i++;
