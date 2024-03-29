@@ -12,15 +12,8 @@ int	repl()
 		if (!str)
 			return (FAILURE);
 		fill_lexer(&lexer, str);
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
-		scan_token(&lexer);	
+		t_node *tree = get_complete_ast(&lexer);
+		print_tree(tree);
 		free(str);
 	}
 	return (1);

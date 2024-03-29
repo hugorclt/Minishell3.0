@@ -12,6 +12,9 @@ FILES 		=	srcs/main.c \
 			srcs/utils/string/ft_substring.c \
 			srcs/utils/string/ft_iswhitespace.c \
 			srcs/utils/array/ft_tablen.c \
+			srcs/utils/array/ft_tabjoin.c \
+			srcs/parser/ast/ast.c \
+			srcs/utils/print.c \
 			srcs/utils/array/ft_freetab.c
 
 INCL_DIR  = $(addprefix -I,$(shell find $(SRC_DIR) -type d))
@@ -34,6 +37,14 @@ $(OBJS_DIR)/%.o	: 	srcs/%.c
 
 
 $(OBJS_DIR)/%.o	: 	srcs/parser/%.c
+	@printf "\033[0;33mGenerating minsihell object... %-38.38s \r" $@
+	@$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INCL_DIR)
+
+$(OBJS_DIR)/%.o	: 	srcs/parser/ast/%.c
+	@printf "\033[0;33mGenerating minsihell object... %-38.38s \r" $@
+	@$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INCL_DIR)
+
+$(OBJS_DIR)/%.o	: 	srcs/utils/%.c
 	@printf "\033[0;33mGenerating minsihell object... %-38.38s \r" $@
 	@$(CC) $(CFLAGS) -c $< -o $@ -MMD $(INCL_DIR)
 

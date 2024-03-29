@@ -73,18 +73,30 @@ int	peek_token(t_lexer *lexer)
 			return (i);
 		i++;
 	}
+	if (!ft_strncmp(token, "", 1))
+		return (ft_tablen(lexer->token_array) + 1);
 	return (ft_tablen(lexer->token_array));
 }
 
 // might break if we reach end of line
-void	scan_token(t_lexer **lexer)
+t_token	*scan_token(t_lexer **lexer)
 {
-	char	*token;
+	char	*cmd;
+	t_token	*token;
 
-	token = get_token(*lexer);
+	cmd = get_token(*lexer);
+	if (!cmd)
+		return (NULL);
+	token = malloc(sizeof(t_token));
 	if (!token)
-		return ;
-	(*lexer)->input_prompt += ft_strlen(token);
-	printf("%s\n", token);
-	// return (init_token(token));
+		return (NULL);
+	token->cmd = ft_split(cmd, ' ');
+	if (!token->cmd)
+		return (NULL);
+
+	// Transformation step here (in order): expand, splitting, unquotting
+
+	token->type = peek_token(*lexer);
+	(*lexer)->input_prompt += ft_strlen(cmd);
+	return (token);
 }

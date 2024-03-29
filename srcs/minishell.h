@@ -5,7 +5,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "ast.h"
 #include "lexer.h"
+#include "utils.h"
+
 # define TRUE 1
 # define FALSE 0
 
