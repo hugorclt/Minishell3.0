@@ -17,7 +17,8 @@ FILES 		=	srcs/main.c \
 			srcs/utils/print.c \
 			srcs/utils/array/ft_freetab.c
 
-INCL_DIR  = $(addprefix -I,$(shell find $(SRC_DIR) -type d))
+SRC_DIR	= srcs
+INCL_DIR  = $(addprefix -I, $(shell find $(SRC_DIR) -type d))
 CC 			= 	cc
 CFLAGS 		= 	-Wall -Wextra -Werror -g3
 

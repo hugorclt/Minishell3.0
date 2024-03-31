@@ -27,6 +27,8 @@ static t_node	*parse_simple_cmd(t_lexer **lexer, t_node *parent)
 	t_token *token;
 
 	next_token = peek_token(*lexer);
+	left = NULL;
+	right = NULL;
 	while (next_token == HEREDOC || next_token == APPEND || next_token == INFILE || next_token == OUTFILE)
 	{
 		if (next_token == HEREDOC || next_token == INFILE)
@@ -36,7 +38,10 @@ static t_node	*parse_simple_cmd(t_lexer **lexer, t_node *parent)
 		next_token = peek_token(*lexer);
 	}
 	if (next_token == CMD)
+	{
 		token = scan_token(lexer);
+		next_token = peek_token(*lexer);
+	}
 	else
 	{
 		printf("minishell: syntax error: parse_simple_cmd\n");
@@ -61,6 +66,7 @@ static t_node	*parse_command(t_lexer **lexer, t_node *parent)
 	int next_token;
 
 	next_token = peek_token(*lexer);
+	result = NULL;
 	if (next_token == R_PARENTH)
 	{
 		scan_token(lexer);// --> to free
@@ -76,33 +82,24 @@ static t_node	*parse_command(t_lexer **lexer, t_node *parent)
 
 static t_node	*parse_pipeline(t_lexer **lexer, t_node *parent)
 {
-	t_node *right_cmd;
 	t_node *result;
-	t_node *left_cmd;
+	t_node *right_cmd;
 	t_token *token;
 	int next_token;
 
-	right_cmd = parse_command(lexer, parent);
-	result = NULL;
+	result = parse_command(lexer, parent);
 	while (42)
 	{
 		next_token = peek_token(*lexer);
 		if (next_token == PIPE)
 		{
 			token = scan_token(lexer);
-			left_cmd = parse_command(lexer, parent); // bug ici parce que le parent est cense etre la variable result
-			result = new_node(token, left_cmd, right_cmd, parent);
+			right_cmd = parse_command(lexer, parent); // bug ici parce que le parent est cense etre la variable result
+			result = new_node(token, result, right_cmd, parent);
 		}
-		else if (next_token == END)
-		{
-			if (!result)
-				return (right_cmd);
-			return (result);
-		}	
 		else
 		{
-			printf("minishell: syntax error: parse_pipeline\n");
-			return (NULL);
+			return (result);
 		}
 	}
 	return (result);
@@ -112,31 +109,22 @@ t_node *parse_and_or(t_lexer **lexer, t_node *parent)
 {
 	t_node *right_pipeline;
 	t_node *result;
-	t_node *left_pipeline;
 	t_token *token;
 	int		next_token;
 
-	right_pipeline = parse_pipeline(lexer, parent);
-	result = NULL;
+	result = parse_pipeline(lexer, parent);
 	while (42)
 	{
 		next_token = peek_token(*lexer);
 		if (next_token == OR || next_token == AND)
 		{
 			token = scan_token(lexer);
-			left_pipeline = parse_pipeline(lexer, parent); // bug ici parce que le parent est cense etre la variable result
-			result = new_node(token, left_pipeline, right_pipeline, parent);
-		}
-		else if (next_token == END)
-		{
-			if (!result)
-				return (right_pipeline);
-			return (result);
+			right_pipeline = parse_pipeline(lexer, parent); // bug ici parce que le parent est cense etre la variable result
+			result = new_node(token, result, right_pipeline, parent);
 		}
 		else
 		{
-			printf("minishell: syntax error: parse_and_or");
-			return (NULL);
+			return (result);	
 		}
 	}
 	return (result);
